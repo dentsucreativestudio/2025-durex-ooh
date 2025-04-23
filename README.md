@@ -16,7 +16,7 @@ To add or update images in the previewer:
 1. Go to the `images/` folder in the repository:  
    👉 [https://github.com/dentsucreativestudio/2025-durex-ooh/tree/main/images](https://github.com/dentsucreativestudio/2025-durex-ooh/tree/main/images)
 2. Click **Add file** > **Upload files**.
-3. Drag and drop your JPG, PNG, or GIF files.
+3. Drag and drop your JPG files.
 4. Click **Commit changes** at the bottom.
 
 ✅ Supported formats: `.jpg`, `.jpeg`, // please try to keep the images below than 2Mb filesize.
