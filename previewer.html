@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    *, *:before, *:after {
+      box-sizing: inherit;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    html, body {
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background: #000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+      }
+
+      .image-wrapper {
+        width: 1080px;
+        height: 1920px;
+        background-color: #000;
+        transform-origin: center center;
+      }
+
+    #mainImage {
+      /* width: 100%;
+      height: 100%; */
+      object-fit: cover;
+      display: none;
+      opacity: 0;
+      transition: opacity 0.3s ease-in;
+    }
+
+    #mainImage.loaded {
+      opacity: 1;
+    }
+
+    .blockElement{
+      position: absolute; top:0; left:0; width:100%; height:100%; 
+    }
+  </style>
+</head>
+<body>
+
+  <div class="image-wrapper">
+    <img id="mainImage" />
+  </div>
+
+
+
+  <script>
+    
+    const fallbackImage = 'fallback.jpg'; // Local fallback
+    const imageEl = document.getElementById('mainImage');
+
+    const repoOwner = 'dentsucreativestudio';
+    const repoName = '2025-durex-ooh';
+    const folderPath = 'images';  // Folder in your repo containing images
+
+    async function fetchImageList() {
+      const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${folderPath}`;
+
+      try {
+          const response = await fetch(url, {
+          cache: 'no-cache',
+          headers: {
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+
+        const files = await response.json();
+
+        const imageUrls = files
+          .filter(file => file.type === 'file' && file.name.match(/\.(jpg|jpeg|png|gif)$/i))
+          .map(file => file.download_url);
+
+        //handle to display image
+        displayImages(imageUrls);
+      } catch (error) {
+        console.error('Error fetching image list:', error);
+      }
+
+      //call to scale div
+      scaleToFitVertical()
+    }
+
+    function displayImages(imageUrls) {
+
+      // console.log('AVAILABLE IMAGES: ', imageUrls.length)
+      const randomImage = imageUrls[Math.floor(Math.random() * imageUrls.length)] || fallbackImage;
+
+      imageEl.onload = () => {
+        imageEl.style.display = 'block';
+        // ⚡ Trigger reflow to allow CSS transition
+        void imageEl.offsetWidth;
+
+        imageEl.classList.add('loaded');
+      };
+
+      imageEl.onerror = () => {
+        imageEl.src = fallbackImage;
+        console.log('imageEl.onerror: ', imageEl.src);
+      };
+
+      imageEl.src = randomImage;
+      
+    }
+
+
+    //fit scale div
+    function scaleToFitVertical() {
+      const wrapper = document.querySelector('.image-wrapper');
+        const padding = 80; // 40 top + 40 bottom
+        const availableHeight = window.innerHeight - padding;
+        const scale = availableHeight / 1920;
+        wrapper.style.transform = `scale(${scale})`;
+
+      }
+
+      window.addEventListener('resize', scaleToFitVertical);
+      
+
+    // Load images when the page loads
+    document.addEventListener("DOMContentLoaded", fetchImageList);
+    
+  </script>
+
+</body>
+</html>
