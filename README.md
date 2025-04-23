@@ -18,7 +18,7 @@ To display new images in the previewer:
 
 2. Click the **“Add file”** button → **“Upload files”**.
 
-3. Drag and drop your images (JPG, PNG, GIF).
+3. Drag and drop your images (JPG). Keep you image below 2Mb file size.
 
 4. Click **“Commit changes”** to upload them.
 
