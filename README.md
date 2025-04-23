@@ -9,19 +9,35 @@ View the live preview here:
 
 ---
 
-## 📂 Uploading New Images
+## 📁 Uploading Images
 
-To add or update images in the previewer:
+To display new images in the previewer:
 
-1. Go to the `images/` folder in the repository:  
+1. Go to the `images` folder in the repo:
    👉 [https://github.com/dentsucreativestudio/2025-durex-ooh/tree/main/images](https://github.com/dentsucreativestudio/2025-durex-ooh/tree/main/images)
-2. Click **Add file** > **Upload files**.
-3. Drag and drop your JPG files.
-4. Click **Commit changes** at the bottom.
 
-✅ Supported formats: `.jpg`, `.jpeg`, // please try to keep the images below than 2Mb filesize.
+2. Click the **“Add file”** button → **“Upload files”**.
 
-New images will be automatically picked up by the previewer when you reload the page.
+3. Drag and drop your images (JPG, PNG, GIF).
+
+4. Click **“Commit changes”** to upload them.
+
+---
+
+## 🗑️ Deleting Images
+
+To remove an image:
+
+1. Visit the `images` folder:  
+   👉 [https://github.com/dentsucreativestudio/2025-durex-ooh/tree/main/images](https://github.com/dentsucreativestudio/2025-durex-ooh/tree/main/images)
+
+2. Click on the image you want to delete.
+
+3. In the top-right corner, click the **trash can icon** 🗑️.
+
+4. Optionally edit the commit message.
+
+5. Click **“Commit changes”** to finalize.
 
 ---
 
