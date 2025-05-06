@@ -23,7 +23,7 @@
     }
 
     body {
-      background: #000;
+      background:pink;
     }
 
     .image-wrapper {
@@ -35,18 +35,46 @@
       overflow: hidden;
       transform-origin: top left;
       background-color: #000;
-    }
 
-    #mainImage {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: none;
+    }
+    #imageWrapper{
       opacity: 0;
       transition: opacity 0.3s ease-in;
     }
 
+    #mainImageBlur{
+        position: absolute;
+        /* top: 0; */
+        /* width: 100%; */
+        /* height: 100%; */
+        /* object-fit: contain; */
+        object-position: center;
+        /* display: none; */
+        /* opacity: 0; */
+        /* transition: opacity 0.3s ease-in; */
+        transform: scale(1.20);
+        transform-origin: 50% 0%;
+    
+    }
+
+    #mainImageBlur.loaded {
+      opacity: 1;
+    }
+
+    #mainImage {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      /* display: none; */
+      /* opacity: 0; */
+      /* transition: opacity 0.3s ease-in; */
+    }
+
     #mainImage.loaded {
+      opacity: 1;
+    }
+    #imageWrapper.loaded{
       opacity: 1;
     }
 
@@ -57,7 +85,8 @@
 </head>
 <body>
 
-  <div class="image-wrapper">
+  <div id="imageWrapper" class="image-wrapper">
+    <img id="mainImageBlur" />
     <img id="mainImage" />
   </div>
 
@@ -66,6 +95,8 @@
   <script>
     
     const fallbackImage = 'fallback.jpg'; // Local fallback
+    const imageWrapper = document.getElementById('imageWrapper');
+    const imageElBlur = document.getElementById('mainImageBlur');
     const imageEl = document.getElementById('mainImage');
 
     const repoOwner = 'dentsucreativestudio';
@@ -101,19 +132,30 @@
       // console.log('AVAILABLE IMAGES: ', imageUrls.length)
       const randomImage = imageUrls[Math.floor(Math.random() * imageUrls.length)] || fallbackImage;
 
+
       imageEl.onload = () => {
+        imageWrapper.style.display = 'block';
+        imageElBlur.style.display = 'block';
         imageEl.style.display = 'block';
         // ⚡ Trigger reflow to allow CSS transition
+        void imageElBlur.offsetWidth;
         void imageEl.offsetWidth;
 
-        imageEl.classList.add('loaded');
+        imageWrapper.classList.add('loaded');
+        // imageElBlur.classList.add('loaded');
+        // imageEl.classList.add('loaded');
       };
 
       imageEl.onerror = () => {
+        imageWrapper.style.display = 'block';
+        imageWrapper.classList.add('loaded');
+
         imageEl.src = fallbackImage;
         console.log('imageEl.onerror: ', imageEl.src);
       };
 
+      
+      imageElBlur.src = randomImage;
       imageEl.src = randomImage;
       
     }
