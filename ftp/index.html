@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    *, *:before, *:after {
+      box-sizing: inherit;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* CSS RESET */
+    html, body {
+      width: 100%;
+      height: 100%;
+      line-height: 1;
+    }
+
+    body {
+      background:black;
+    }
+
+    .image-wrapper {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1080px;
+      height: 1920px;
+      overflow: hidden;
+      transform-origin: top left;
+      background-color: #000;
+
+    }
+    #imageWrapper{
+      opacity: 0;
+      transition: opacity 0.3s ease-in;
+    }
+
+
+    #mainImage {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      /* display: none; */
+      /* opacity: 0; */
+      /* transition: opacity 0.3s ease-in; */
+    }
+
+    #mainImage.loaded {
+      opacity: 1;
+    }
+    #imageWrapper.loaded{
+      opacity: 1;
+    }
+
+    .blockElement{
+      position: absolute; top:0; left:0; width:100%; height:100%; 
+    }
+  </style>
+</head>
+<body>
+
+  <div id="imageWrapper" class="image-wrapper">
+    <img id="mainImage" />
+  </div>
+
+
+  <script src="list.js"></script>
+  <script>
+    
+    const fallbackImage = 'fallback.jpg'; // Local fallback
+    const imageWrapper = document.getElementById('imageWrapper');
+    const imageEl = document.getElementById('mainImage');
+
+
+
+    async function fetchImageList() {
+        // const baseUrl = 'https://media-studio-webapp.azurewebsites.net/staticpages/clients/durex/durex-ooh-may/';
+        const baseUrl = 'https://media-studio-webapp.azurewebsites.net/staticpages/clients/durex/durex-ooh-may/images/'; // Assuming your images are in /images relative to your HTML file
+        
+        const imageUrls = imageList.map(name => baseUrl + name);
+        displayImages(imageUrls);
+    
+    }
+
+    function displayImages(imageUrls) {
+
+      // console.log('AVAILABLE IMAGES: ', imageUrls.length)
+      const randomImage = imageUrls[Math.floor(Math.random() * imageUrls.length)] || fallbackImage;
+
+
+      imageEl.onload = () => {
+        imageWrapper.style.display = 'block';
+        imageEl.style.display = 'block';
+        // ⚡ Trigger reflow to allow CSS transition
+        void imageEl.offsetWidth;
+
+        imageWrapper.classList.add('loaded');
+        // imageElBlur.classList.add('loaded');
+        // imageEl.classList.add('loaded');
+      };
+
+      imageEl.onerror = () => {
+        imageWrapper.style.display = 'block';
+        imageWrapper.classList.add('loaded');
+
+        imageEl.src = fallbackImage;
+        console.log('imageEl.onerror: ', imageEl.src);
+      };
+
+      
+      imageEl.src = randomImage;
+      
+    }
+
+    // Load images when the page loads
+    document.addEventListener("DOMContentLoaded", fetchImageList);
+    
+  </script>
+
+</body>
+</html>
